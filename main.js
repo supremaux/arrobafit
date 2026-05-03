@@ -1,6 +1,8 @@
+// Inicializa Ícones
 lucide.createIcons();
 
-const inputs = [
+// Variáveis de Elementos
+const inputIds = [
   "pesoInicial",
   "gmd",
   "custoSuplemento",
@@ -8,54 +10,91 @@ const inputs = [
   "dias",
   "valorArroba",
 ];
+const elements = {};
+inputIds.forEach((id) => (elements[id] = document.getElementById(id)));
 
-function calculate() {
-  const data = {};
-  inputs.forEach(
-    (id) => (data[id] = parseFloat(document.getElementById(id).value) || 0),
-  );
+const displayLucro = document.getElementById("resLucro");
+const displayArrobas = document.getElementById("resArrobas");
+const displayCustoTotal = document.getElementById("resCustoTotal");
+const displayBreakEven = document.getElementById("resBreakEven");
+const displayInsight = document.getElementById("insightText");
 
-  // Regras de Negócio:
-  // 1 @ = 30kg de peso vivo (considerando rendimento de carcaça padrão)
-  const ganhoTotalKg = (data.gmd / 1000) * data.dias;
-  const arrobasProduzidas = ganhoTotalKg / 30;
+// Função de Cálculo Centralizada
+function updateCalculation() {
+  const val = {};
+  inputIds.forEach((id) => (val[id] = parseFloat(elements[id].value) || 0));
 
-  const receitaBruta = arrobasProduzidas * data.valorArroba;
-  const custoTotalTrato = data.consumoDiario * data.custoSuplemento * data.dias;
-  const lucroLiquido = receitaBruta - custoTotalTrato;
+  // Regra: 1 @ = 30kg peso vivo
+  const totalGanhoKg = (val.gmd / 1000) * val.dias;
+  const arrobas = totalGanhoKg / 30;
 
-  // Atualiza Interface
-  document.getElementById("resLucro").innerText = lucroLiquido.toLocaleString(
-    "pt-BR",
-    {
-      style: "currency",
-      currency: "BRL",
-    },
-  );
-  document.getElementById("resArrobas").innerText =
-    arrobasProduzidas.toFixed(2) + " @";
-  document.getElementById("resCustoTotal").innerText =
-    custoTotalTrato.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
+  const receita = arrobas * val.valorArroba;
+  const custoTrato = val.consumoDiario * val.custoSuplemento * val.dias;
+  const lucro = receita - custoTrato;
 
-  // Cálculo simplificado de ponto de equilíbrio (gmd necessário para pagar o trato)
-  const gmdNecessario =
-    (((custoTotalTrato / data.valorArroba) * 30) / data.dias) * 1000;
-  document.getElementById("resBreakEven").innerText =
-    Math.round(gmdNecessario) + "g";
+  // Formatação Monetária
+  const fmt = (v) =>
+    v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-  // Insight Dinâmico
-  const insight =
-    lucroLiquido > 0
-      ? `Operação lucrativa! Você está ganhando ${((lucroLiquido / custoTotalTrato) * 100).toFixed(0)}% sobre o custo do trato.`
-      : "Atenção: O custo do trato está superando o ganho de peso. Revise a dieta.";
-  document.getElementById("insightText").innerText = insight;
+  // Atualiza UI
+  displayLucro.innerText = fmt(lucro);
+  displayArrobas.innerText = arrobas.toFixed(2) + " @";
+  displayCustoTotal.innerText = fmt(custoTrato);
+
+  const breakEvenGMD =
+    (((custoTrato / val.valorArroba) * 30) / val.dias) * 1000;
+  displayBreakEven.innerText = Math.round(breakEvenGMD) + "g";
+
+  // Logica de Insight
+  if (lucro > 0) {
+    const perc = ((lucro / custoTrato) * 100).toFixed(0);
+    displayInsight.innerText = `Operação saudável! Retorno de ${perc}% sobre o investimento no trato.`;
+    displayInsight.className =
+      "text-emerald-600 text-xs mt-1 leading-relaxed font-bold";
+  } else if (lucro < 0) {
+    displayInsight.innerText =
+      "Atenção: O custo da dieta está consumindo o lucro. Reduza custos ou aumente o GMD.";
+    displayInsight.className =
+      "text-rose-600 text-xs mt-1 leading-relaxed font-bold";
+  } else {
+    displayInsight.innerText =
+      "Insira os dados da fazenda para gerar o insight.";
+    displayInsight.className =
+      "text-slate-500 text-xs mt-1 leading-relaxed italic";
+  }
 }
 
-inputs.forEach((id) => {
-  document.getElementById(id).addEventListener("input", calculate);
+// Listeners para Input
+inputIds.forEach((id) =>
+  elements[id].addEventListener("input", updateCalculation),
+);
+
+// Inicia Cálculo na Carga
+updateCalculation();
+
+// --- LÓGICA PWA ---
+let deferredPrompt;
+const pwaToast = document.getElementById("pwa-install-toast");
+const btnInstall = document.getElementById("install-button");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Delay para não atrapalhar o primeiro uso
+  setTimeout(() => {
+    pwaToast.classList.remove("hidden");
+  }, 5000);
 });
 
-calculate(); // Inicializa
+btnInstall.addEventListener("click", async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    pwaToast.classList.add("hidden");
+  }
+});
+
+window.addEventListener("appinstalled", () => {
+  pwaToast.classList.add("hidden");
+});

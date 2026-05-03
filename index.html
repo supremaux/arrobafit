@@ -3,25 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>ArrobaFit - Calculadora de Lucro Real</title>
+    <title>ArrobaFit - Calculadora PWA Funcional</title>
+    <!-- <link rel="manifest" href="/manifest.json"> -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="./style.css" />
+
+    <!-- Lógica da Calculadora e PWA embutida no final do body para melhor performance. -->
+    <script type="module" src="./main.js"></script>
+
+    <!-- Declarar o manifest e o service worker para PWA -->
+    <link rel="manifest" href="/manifest.json" />
     <script>
       navigator.serviceWorker.register("pwabuilder-adv-sw.js");
     </script>
-    <link rel="manifest" href="manifest.json" />
-    <script>
-      navigator.serviceWorker.register("pwabuilder-adv-sw.js");
-    </script>
-    <script type="module" src="./main.js" defer></script>
   </head>
-  <body class="bg-slate-50 text-slate-900 min-h-screen">
+  <body class="bg-slate-50 text-slate-900 min-h-screen pb-24">
     <nav
       class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-filter"
     >
@@ -33,13 +34,10 @@
             class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white"
           >
             <picture>
-              <source srcset="/assets/logo.png" type="image/png" />
               <img
                 src="/assets/logo.png"
-                alt="Logo ArrobaFit"
-                class="w-5 h-5 object-contain"
-                loading="lazy"
-                decoding="async"
+                alt="ArrobaFit"
+                class="w-6 h-6 object-contain"
               />
             </picture>
           </div>
@@ -47,8 +45,10 @@
             >ArrobaFit</span
           >
         </div>
-        <div class="text-sm font-medium text-slate-500">
-          Protótipo Funcional
+        <div
+          class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2 py-1 rounded"
+        >
+          V1.2.0
         </div>
       </div>
     </nav>
@@ -57,24 +57,25 @@
       <header class="mb-8">
         <h1 class="text-2xl font-bold text-slate-800">Simulador de Engorda</h1>
         <p class="text-slate-500">
-          Ajuste os parâmetros para ver a projeção de lucro.
+          Ferramenta de precisão para o pecuarista moderno.
         </p>
       </header>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Entradas de Dados -->
         <section
           class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200"
         >
           <div class="space-y-5">
             <div>
               <label class="block text-sm font-semibold text-slate-700 mb-1"
-                >Peso Inicial do Animal (kg)</label
+                >Peso Inicial (kg)</label
               >
               <input
                 type="number"
                 id="pesoInicial"
                 value="350"
-                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                class="calc-input w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
               />
             </div>
             <div>
@@ -85,66 +86,62 @@
                 type="number"
                 id="gmd"
                 value="800"
-                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                class="calc-input w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
               />
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1"
-                  >Custo Suplemento (R$/kg)</label
+                  >Custo Dieta (R$/kg)</label
                 >
                 <input
                   type="number"
                   id="custoSuplemento"
                   value="4.00"
                   step="0.1"
-                  class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                  class="calc-input w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                 />
               </div>
               <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1"
-                  >Consumo Diário (kg)</label
+                  >Consumo (kg/dia)</label
                 >
                 <input
                   type="number"
                   id="consumoDiario"
                   value="1.5"
                   step="0.1"
-                  class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                  class="calc-input w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                 />
               </div>
             </div>
             <div>
               <label class="block text-sm font-semibold text-slate-700 mb-1"
-                >Período de Trato (Dias)</label
+                >Período (Dias)</label
               >
               <input
                 type="number"
                 id="dias"
                 value="90"
-                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                class="calc-input w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
               />
             </div>
             <div>
-              <label class="block text-sm font-semibold text-slate-700 mb-1"
-                >Preço da Arroba MS (R$)</label
+              <label
+                class="block text-sm font-semibold text-slate-700 mb-1 font-bold text-emerald-800 uppercase text-[10px] tracking-widest"
+                >Valor da Arroba MS (R$)</label
               >
               <input
                 type="number"
                 id="valorArroba"
                 value="341"
-                class="w-full px-4 py-2 bg-slate-100 border border-slate-200 rounded-lg font-bold text-emerald-700 outline-none"
+                class="calc-input w-full px-4 py-2 bg-emerald-50 border border-emerald-200 rounded-lg font-bold text-emerald-700 outline-none"
               />
-
-              <p
-                class="text-[10px] text-slate-400 mt-1 uppercase tracking-wider font-bold"
-              >
-                Valor base: Maio/2026
-              </p>
             </div>
           </div>
         </section>
 
+        <!-- Painel de Resultados -->
         <section class="flex flex-col gap-6">
           <div
             class="bg-slate-900 text-white p-8 rounded-3xl relative overflow-hidden flex-1 shadow-xl"
@@ -156,16 +153,15 @@
                 Lucro Líquido Estimado
               </h2>
               <p id="resLucro" class="text-5xl font-bold mb-4">R$ 0,00</p>
-
-              <p class="text-slate-400 text-sm mb-8 italic">
-                Projeção por cabeça livre de custos de trato.
+              <p class="text-slate-400 text-sm mb-8">
+                Lucro real por cabeça livre de custos diretos.
               </p>
 
-              <div class="space-y-4">
+              <div class="space-y-4 font-medium">
                 <div
                   class="flex items-center justify-between border-b border-slate-800 pb-2"
                 >
-                  <span class="text-slate-400 italic">@ Engordadas</span>
+                  <span class="text-slate-400">Total Arrobas Produzidas</span>
                   <span id="resArrobas" class="font-bold text-emerald-400"
                     >0.0 @</span
                   >
@@ -173,17 +169,13 @@
                 <div
                   class="flex items-center justify-between border-b border-slate-800 pb-2"
                 >
-                  <span class="text-slate-400 italic"
-                    >Custo Operacional Total</span
-                  >
+                  <span class="text-slate-400">Custo Total do Trato</span>
                   <span id="resCustoTotal" class="font-bold text-rose-400"
                     >R$ 0,00</span
                   >
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="text-slate-400 italic"
-                    >Ponto de Equilíbrio (GMD min.)</span
-                  >
+                  <span class="text-slate-400">Equilíbrio (GMD mínimo)</span>
                   <span id="resBreakEven" class="font-bold text-amber-400"
                     >0g</span
                   >
@@ -193,22 +185,67 @@
           </div>
 
           <div
-            class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 flex items-start gap-4"
+            class="bg-white p-6 rounded-2xl border border-slate-200 flex items-start gap-4"
           >
             <div class="p-2 bg-emerald-600 text-white rounded-lg">
               <i data-lucide="lightbulb" class="w-5 h-5"></i>
             </div>
             <div>
-              <h4 class="font-bold text-emerald-900 text-sm">
-                Insight ArrobaFit
+              <h4 class="font-bold text-slate-800 text-sm">
+                Análise do ArrobaFit
               </h4>
-              <p id="insightText" class="text-emerald-700 text-xs mt-1">
-                Ajuste os valores para obter uma análise estratégica.
+              <p
+                id="insightText"
+                class="text-slate-500 text-xs mt-1 leading-relaxed italic"
+              >
+                Insira os dados da fazenda para gerar o insight.
               </p>
             </div>
           </div>
         </section>
       </div>
     </main>
+
+    <!-- Toast de Instalação -->
+    <div
+      id="pwa-install-toast"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm hidden z-[100]"
+    >
+      <div
+        class="bg-white border border-slate-200 p-5 rounded-2xl shadow-2xl flex flex-col gap-4 animate-slide-up"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-white shrink-0"
+          >
+            <i data-lucide="smartphone" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm">Instalar ArrobaFit</h3>
+            <p class="text-[10px] text-slate-500 font-medium">
+              Acesse offline direto da sua tela inicial.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button
+            id="install-button"
+            class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all text-sm"
+          >
+            Instalar
+          </button>
+          <button
+            onclick="
+              document
+                .getElementById('pwa-install-toast')
+                .classList.add('hidden')
+            "
+            class="px-4 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl text-sm"
+          >
+            Agora não
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
