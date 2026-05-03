@@ -1,26 +1,38 @@
 {
-  "name": "The name of your application",
-  "short_name": "This name will show in your Windows taskbar, in the start menu, and Android homescreen",
-  "start_url": "The URL that should be loaded when your application is opened",
+  "name": "ArrobaFit - Calculadora de Lucro Real",
+  "short_name": "ArrobaFit",
+  "start_url": "/",
   "display": "standalone",
-  "description": "A description for your application",
-  "lang": " The default language of your application",
+  "description": "Uma calculadora para simular o lucro de animais em engorda",
+  "lang": "pt-BR",
   "dir": "auto",
   "theme_color": "#000000",
   "background_color": "#000000",
   "orientation": "any",
   "icons": [
     {
-      "src": "https://www.pwabuilder.com/assets/icons/icon_512.png",
-      "sizes": "512x512",
+      "src": "assets/manifest-icon-192.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/manifest-icon-192.maskable.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "https://www.pwabuilder.com/assets/icons/icon_192.png",
-      "sizes": "192x192",
+      "src": "assets/manifest-icon-512.maskable.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "assets/manifest-icon-512.maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "screenshots": [
