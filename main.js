@@ -49,7 +49,7 @@ function calculate() {
   // Insight Dinâmico
   const insight =
     lucroLiquido > 0
-      ? `Operação lucrativa! [cite_start]Você está ganhando ${((lucroLiquido / custoTotalTrato) * 100).toFixed(0)}% sobre o custo do trato[cite: 11].`
+      ? `Operação lucrativa! Você está ganhando ${((lucroLiquido / custoTotalTrato) * 100).toFixed(0)}% sobre o custo do trato.`
       : "Atenção: O custo do trato está superando o ganho de peso. Revise a dieta.";
   document.getElementById("insightText").innerText = insight;
 }

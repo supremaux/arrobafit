@@ -39,9 +39,8 @@
     <main class="max-w-5xl mx-auto px-4 py-8">
       <header class="mb-8">
         <h1 class="text-2xl font-bold text-slate-800">Simulador de Engorda</h1>
-        [cite_start]
         <p class="text-slate-500">
-          Ajuste os parâmetros para ver a projeção de lucro[cite: 89].
+          Ajuste os parâmetros para ver a projeção de lucro.
         </p>
       </header>
 
@@ -119,11 +118,11 @@
                 value="341"
                 class="w-full px-4 py-2 bg-slate-100 border border-slate-200 rounded-lg font-bold text-emerald-700 outline-none"
               />
-              [cite_start]
+
               <p
                 class="text-[10px] text-slate-400 mt-1 uppercase tracking-wider font-bold"
               >
-                Valor base: Maio/2026 [cite: 62]
+                Valor base: Maio/2026
               </p>
             </div>
           </div>
@@ -140,9 +139,9 @@
                 Lucro Líquido Estimado
               </h2>
               <p id="resLucro" class="text-5xl font-bold mb-4">R$ 0,00</p>
-              [cite_start]
+
               <p class="text-slate-400 text-sm mb-8 italic">
-                Projeção por cabeça livre de custos de trato[cite: 11].
+                Projeção por cabeça livre de custos de trato.
               </p>
 
               <div class="space-y-4">
@@ -194,69 +193,5 @@
         </section>
       </div>
     </main>
-
-    <script>
-      lucide.createIcons();
-
-      const inputs = [
-        "pesoInicial",
-        "gmd",
-        "custoSuplemento",
-        "consumoDiario",
-        "dias",
-        "valorArroba",
-      ];
-
-      function calculate() {
-        const data = {};
-        inputs.forEach(
-          (id) =>
-            (data[id] = parseFloat(document.getElementById(id).value) || 0),
-        );
-
-        // Regras de Negócio:
-        // 1 @ = 30kg de peso vivo (considerando rendimento de carcaça padrão)
-        const ganhoTotalKg = (data.gmd / 1000) * data.dias;
-        const arrobasProduzidas = ganhoTotalKg / 30;
-
-        const receitaBruta = arrobasProduzidas * data.valorArroba;
-        const custoTotalTrato =
-          data.consumoDiario * data.custoSuplemento * data.dias;
-        const lucroLiquido = receitaBruta - custoTotalTrato;
-
-        // Atualiza Interface
-        document.getElementById("resLucro").innerText =
-          lucroLiquido.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          });
-        document.getElementById("resArrobas").innerText =
-          arrobasProduzidas.toFixed(2) + " @";
-        document.getElementById("resCustoTotal").innerText =
-          custoTotalTrato.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          });
-
-        // Cálculo simplificado de ponto de equilíbrio (gmd necessário para pagar o trato)
-        const gmdNecessario =
-          (((custoTotalTrato / data.valorArroba) * 30) / data.dias) * 1000;
-        document.getElementById("resBreakEven").innerText =
-          Math.round(gmdNecessario) + "g";
-
-        // Insight Dinâmico
-        const insight =
-          lucroLiquido > 0
-            ? `Operação lucrativa! [cite_start]Você está ganhando ${((lucroLiquido / custoTotalTrato) * 100).toFixed(0)}% sobre o custo do trato[cite: 11].`
-            : "Atenção: O custo do trato está superando o ganho de peso. Revise a dieta.";
-        document.getElementById("insightText").innerText = insight;
-      }
-
-      inputs.forEach((id) => {
-        document.getElementById(id).addEventListener("input", calculate);
-      });
-
-      calculate(); // Inicializa
-    </script>
   </body>
 </html>
