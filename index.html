@@ -12,6 +12,10 @@
       rel="stylesheet"
     />
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      navigator.serviceWorker.register("pwabuilder-adv-sw.js");
+    </script>
+    <link rel="manifest" href="manifest.json" />
     <script type="module" src="./main.js" defer></script>
   </head>
   <body class="bg-slate-50 text-slate-900 min-h-screen">
