@@ -1,0 +1,3 @@
+# Ignorar arquivos e pastas não necessários para o versionamento
+node_modules/
+dist/   
