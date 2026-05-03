@@ -15,7 +15,7 @@
   </head>
   <body class="bg-slate-50 text-slate-900 min-h-screen">
     <nav
-      class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-filter blur-md"
+      class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-filter"
     >
       <div
         class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between"
@@ -24,7 +24,16 @@
           <div
             class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white"
           >
-            <i data-lucide="trending-up" class="w-5 h-5"></i>
+            <picture>
+              <source srcset="/assets/logo.png" type="image/png" />
+              <img
+                src="/assets/logo.png"
+                alt="Logo ArrobaFit"
+                class="w-5 h-5 object-contain"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
           </div>
           <span class="font-bold text-xl tracking-tight text-emerald-900"
             >ArrobaFit</span
