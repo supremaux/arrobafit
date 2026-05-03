@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArrobaFit - Calculadora de Lucro Real</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="module" src="./main.js" defer></script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 min-h-screen">
+    <nav
+      class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-filter blur-md"
+    >
+      <div
+        class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-2">
+          <div
+            class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white"
+          >
+            <i data-lucide="trending-up" class="w-5 h-5"></i>
+          </div>
+          <span class="font-bold text-xl tracking-tight text-emerald-900"
+            >ArrobaFit</span
+          >
+        </div>
+        <div class="text-sm font-medium text-slate-500">
+          Protótipo Funcional
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 py-8">
+      <header class="mb-8">
+        <h1 class="text-2xl font-bold text-slate-800">Simulador de Engorda</h1>
+        [cite_start]
+        <p class="text-slate-500">
+          Ajuste os parâmetros para ver a projeção de lucro[cite: 89].
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <section
+          class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200"
+        >
+          <div class="space-y-5">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1"
+                >Peso Inicial do Animal (kg)</label
+              >
+              <input
+                type="number"
+                id="pesoInicial"
+                value="350"
+                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1"
+                >Ganho de Peso Diário (g/dia)</label
+              >
+              <input
+                type="number"
+                id="gmd"
+                value="800"
+                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+              />
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1"
+                  >Custo Suplemento (R$/kg)</label
+                >
+                <input
+                  type="number"
+                  id="custoSuplemento"
+                  value="4.00"
+                  step="0.1"
+                  class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1"
+                  >Consumo Diário (kg)</label
+                >
+                <input
+                  type="number"
+                  id="consumoDiario"
+                  value="1.5"
+                  step="0.1"
+                  class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                />
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1"
+                >Período de Trato (Dias)</label
+              >
+              <input
+                type="number"
+                id="dias"
+                value="90"
+                class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1"
+                >Preço da Arroba MS (R$)</label
+              >
+              <input
+                type="number"
+                id="valorArroba"
+                value="341"
+                class="w-full px-4 py-2 bg-slate-100 border border-slate-200 rounded-lg font-bold text-emerald-700 outline-none"
+              />
+              [cite_start]
+              <p
+                class="text-[10px] text-slate-400 mt-1 uppercase tracking-wider font-bold"
+              >
+                Valor base: Maio/2026 [cite: 62]
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="flex flex-col gap-6">
+          <div
+            class="bg-slate-900 text-white p-8 rounded-3xl relative overflow-hidden flex-1 shadow-xl"
+          >
+            <div class="relative z-10">
+              <h2
+                class="text-emerald-400 font-bold text-sm uppercase tracking-wider mb-2"
+              >
+                Lucro Líquido Estimado
+              </h2>
+              <p id="resLucro" class="text-5xl font-bold mb-4">R$ 0,00</p>
+              [cite_start]
+              <p class="text-slate-400 text-sm mb-8 italic">
+                Projeção por cabeça livre de custos de trato[cite: 11].
+              </p>
+
+              <div class="space-y-4">
+                <div
+                  class="flex items-center justify-between border-b border-slate-800 pb-2"
+                >
+                  <span class="text-slate-400 italic">@ Engordadas</span>
+                  <span id="resArrobas" class="font-bold text-emerald-400"
+                    >0.0 @</span
+                  >
+                </div>
+                <div
+                  class="flex items-center justify-between border-b border-slate-800 pb-2"
+                >
+                  <span class="text-slate-400 italic"
+                    >Custo Operacional Total</span
+                  >
+                  <span id="resCustoTotal" class="font-bold text-rose-400"
+                    >R$ 0,00</span
+                  >
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-400 italic"
+                    >Ponto de Equilíbrio (GMD min.)</span
+                  >
+                  <span id="resBreakEven" class="font-bold text-amber-400"
+                    >0g</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 flex items-start gap-4"
+          >
+            <div class="p-2 bg-emerald-600 text-white rounded-lg">
+              <i data-lucide="lightbulb" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-emerald-900 text-sm">
+                Insight ArrobaFit
+              </h4>
+              <p id="insightText" class="text-emerald-700 text-xs mt-1">
+                Ajuste os valores para obter uma análise estratégica.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      lucide.createIcons();
+
+      const inputs = [
+        "pesoInicial",
+        "gmd",
+        "custoSuplemento",
+        "consumoDiario",
+        "dias",
+        "valorArroba",
+      ];
+
+      function calculate() {
+        const data = {};
+        inputs.forEach(
+          (id) =>
+            (data[id] = parseFloat(document.getElementById(id).value) || 0),
+        );
+
+        // Regras de Negócio:
+        // 1 @ = 30kg de peso vivo (considerando rendimento de carcaça padrão)
+        const ganhoTotalKg = (data.gmd / 1000) * data.dias;
+        const arrobasProduzidas = ganhoTotalKg / 30;
+
+        const receitaBruta = arrobasProduzidas * data.valorArroba;
+        const custoTotalTrato =
+          data.consumoDiario * data.custoSuplemento * data.dias;
+        const lucroLiquido = receitaBruta - custoTotalTrato;
+
+        // Atualiza Interface
+        document.getElementById("resLucro").innerText =
+          lucroLiquido.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          });
+        document.getElementById("resArrobas").innerText =
+          arrobasProduzidas.toFixed(2) + " @";
+        document.getElementById("resCustoTotal").innerText =
+          custoTotalTrato.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          });
+
+        // Cálculo simplificado de ponto de equilíbrio (gmd necessário para pagar o trato)
+        const gmdNecessario =
+          (((custoTotalTrato / data.valorArroba) * 30) / data.dias) * 1000;
+        document.getElementById("resBreakEven").innerText =
+          Math.round(gmdNecessario) + "g";
+
+        // Insight Dinâmico
+        const insight =
+          lucroLiquido > 0
+            ? `Operação lucrativa! [cite_start]Você está ganhando ${((lucroLiquido / custoTotalTrato) * 100).toFixed(0)}% sobre o custo do trato[cite: 11].`
+            : "Atenção: O custo do trato está superando o ganho de peso. Revise a dieta.";
+        document.getElementById("insightText").innerText = insight;
+      }
+
+      inputs.forEach((id) => {
+        document.getElementById(id).addEventListener("input", calculate);
+      });
+
+      calculate(); // Inicializa
+    </script>
+  </body>
+</html>
